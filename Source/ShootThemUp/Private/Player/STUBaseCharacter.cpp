@@ -4,6 +4,10 @@
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
+
+DEFINE_LOG_CATEGORY_STATIC(STUBaseCharacterLog, All, All)
 
 // Sets default values
 ASTUBaseCharacter::ASTUBaseCharacter()
@@ -40,6 +44,8 @@ void ASTUBaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
     PlayerInputComponent->BindAxis("LookUp", this, &ASTUBaseCharacter::AddControllerPitchInput);
     PlayerInputComponent->BindAxis("TurnAround", this, &ASTUBaseCharacter::AddControllerYawInput);
     PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ASTUBaseCharacter::Jump);
+    PlayerInputComponent->BindAction("Run", IE_Pressed, this, &ASTUBaseCharacter::StartRun);
+    PlayerInputComponent->BindAction("Run", IE_Released, this, &ASTUBaseCharacter::FinishRun);
 }
 
 void ASTUBaseCharacter::MoveForward(float Amount)
@@ -50,4 +56,15 @@ void ASTUBaseCharacter::MoveForward(float Amount)
 void ASTUBaseCharacter::MoveRight(float Amount)
 {
     AddMovementInput(GetActorRightVector(), Amount);
+}
+
+void ASTUBaseCharacter::StartRun() {
+    GetCharacterMovement()->MaxWalkSpeed *= 2;
+    bRunning = true;
+    
+}
+
+void ASTUBaseCharacter::FinishRun() {
+    GetCharacterMovement()->MaxWalkSpeed = 600.f;
+    bRunning = false;
 }

@@ -18,12 +18,18 @@ public:
     // Sets default values for this character's properties
     ASTUBaseCharacter();
 
+    UFUNCTION(BlueprintCallable)
+    bool GetIsRunning() const { return bRunning; }
+
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     UCameraComponent* CameraComponent;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
     USpringArmComponent* SpringArmComponent;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    bool bRunning = false;
 
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
@@ -38,4 +44,6 @@ public:
 private:
     void MoveForward(float Amount);
     void MoveRight(float Amount);
+    void StartRun();
+    void FinishRun();
 };
