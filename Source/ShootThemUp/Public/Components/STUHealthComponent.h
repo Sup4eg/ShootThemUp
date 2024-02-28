@@ -24,6 +24,10 @@ protected:
     // Called when the game starts
     virtual void BeginPlay() override;
 
+	UFUNCTION()
+    void OnTakeAnyDamage(
+        AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
+
 private:
     float Health = 0.0f;
 };
