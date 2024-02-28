@@ -6,6 +6,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/STUCharacterMovementComponent.h"
+#include "Components/STUHealthComponent.h"
+#include "Components/TextRenderComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(STUBaseCharacterLog, All, All)
 
@@ -22,6 +24,10 @@ ASTUBaseCharacter::ASTUBaseCharacter(const FObjectInitializer& ObjInit)
 
     CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
     CameraComponent->SetupAttachment(SpringArmComponent);
+
+    HealthComponent = CreateDefaultSubobject<USTUHealthComponent>("HealthComponent");
+    HealthTextComponent = CreateDefaultSubobject<UTextRenderComponent>("TextRenderComponent");
+    HealthTextComponent->SetupAttachment(GetRootComponent());
 }
 
 bool ASTUBaseCharacter::IsRunning() const
@@ -29,7 +35,8 @@ bool ASTUBaseCharacter::IsRunning() const
     return WantsToRun && IsMovingForward && !GetVelocity().IsZero();
 }
 
-float ASTUBaseCharacter::GetMovementDirection() const {
+float ASTUBaseCharacter::GetMovementDirection() const
+{
     if (GetVelocity().IsZero()) return 0.0f;
     const auto VelocityNormal = GetVelocity().GetSafeNormal();
     const auto AngleBetween = FMath::Acos(FVector::DotProduct(GetActorForwardVector(), VelocityNormal));
@@ -42,12 +49,18 @@ float ASTUBaseCharacter::GetMovementDirection() const {
 void ASTUBaseCharacter::BeginPlay()
 {
     Super::BeginPlay();
+
+    check(HealthComponent);
+    check(HealthTextComponent);
 }
 
 // Called every frame
 void ASTUBaseCharacter::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+
+    const auto Health = HealthComponent->GetHealth();
+    HealthTextComponent->SetText(FText::FromString(FString::Printf(TEXT("%.0f"), Health)));
 }
 
 // Called to bind functionality to input
@@ -83,5 +96,5 @@ void ASTUBaseCharacter::OnStartRunning()
 
 void ASTUBaseCharacter::OnStopRunning()
 {
-    WantsToRun = false; 
+    WantsToRun = false;
 }
