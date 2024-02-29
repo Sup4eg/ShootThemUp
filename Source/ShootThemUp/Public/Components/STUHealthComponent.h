@@ -24,12 +24,30 @@ public:
     UFUNCTION(BlueprintCallable)
     bool IsDead() const { return Health <= 0.0; }
 
+    
+    UFUNCTION(BlueprintCallable)
+    bool isAutoHeal() const { return AutoHeal; }
+
     FOnDeath OnDeath;
     FOnHealthChanged OnHealthChanged;
 
 protected:
+    
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0", ClampMax = "1000"))
     float MaxHealth = 100.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Heal", meta = (ClampMin = "0", ClampMax = "10"))
+    float HealUpdateTime = 0.3f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Heal", meta = (ClampMin = "0", ClampMax = "10"))
+    float HealDelay = 3.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Heal", meta = (ClampMin = "1", ClampMax = "1000"))
+    float HealModifier = 1.0f;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Heal")
+    bool AutoHeal = true;
+
 
     // Called when the game starts
     virtual void BeginPlay() override;
@@ -40,4 +58,6 @@ protected:
 
 private:
     float Health = 0.0f;
+    FTimerHandle TimerHandle;
+    void TakeHeal();
 };
