@@ -7,7 +7,6 @@
 #include "STUCoreTypes.h"
 #include "STUHealthComponent.generated.h"
 
-
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 {
@@ -16,6 +15,9 @@ class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
 public:
     // Sets default values for this component's properties
     USTUHealthComponent();
+
+    UFUNCTION(BlueprintCallable, Category = "Health")
+    float GetHealthPercent() { return Health / MaxHealth; }
 
     float GetHealth() const { return Health; }
 
@@ -29,7 +31,6 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0", ClampMax = "1000"))
     float MaxHealth = 100.0f;
 
-    
     UPROPERTY(EditDefaultsOnly, Category = "Heal", meta = (EditCondition = "AutoHeal", ClampMin = "0", ClampMax = "10"))
     float HealUpdateTime = 1.0f;
 
@@ -41,7 +42,6 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "Heal")
     bool AutoHeal = true;
-
 
     // Called when the game starts
     virtual void BeginPlay() override;
