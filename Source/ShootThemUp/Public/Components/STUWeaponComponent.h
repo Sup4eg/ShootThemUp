@@ -7,7 +7,6 @@
 #include "STUCoreTypes.h"
 #include "STUWeaponComponent.generated.h"
 
-
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SHOOTTHEMUP_API USTUWeaponComponent : public UActorComponent
 {
@@ -20,6 +19,8 @@ public:
     void StopFire();
     void NextWeapon();
     void Reload();
+
+    bool GetWeaponUIData(FWeaponUIData& UIData) const;
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
