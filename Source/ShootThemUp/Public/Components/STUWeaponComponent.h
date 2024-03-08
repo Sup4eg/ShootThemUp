@@ -22,6 +22,8 @@ public:
 
     bool GetWeaponUIData(FWeaponUIData& UIData) const;
 
+	bool GetWeaponAmmoData(FAmmoData& AmmoData) const;
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
     TArray<FWeaponData> WeaponData;
