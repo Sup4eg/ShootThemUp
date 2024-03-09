@@ -23,7 +23,8 @@ public:
     virtual void StopFire();
     void ChangeClip();
     bool CanReload() const;
-    FWeaponUIData GetUIData() const { return UIData; };
+    FWeaponUIData GetCurrentUIData() const { return UIData; }
+    FAmmoData GetCurrentAmmoData() const { return CurrentAmmo; }
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
