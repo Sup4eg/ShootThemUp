@@ -15,8 +15,5 @@ bool ASTUAmmoPickup::GivePickupTo(APawn* PlayerPawn)
     const auto WeaponComponent = STUUtils::GetSTUPlayerComponent<USTUWeaponComponent>(PlayerPawn);
     if (!WeaponComponent) return false;
 
-
-    UE_LOG(LogAmmoPickup, Display, TEXT("Give pick up to!!!!!"));
-
     return WeaponComponent->TryToAddAmmo(WeaponType, ClipsAmount);
 }

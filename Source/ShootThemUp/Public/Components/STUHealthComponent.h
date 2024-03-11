@@ -24,6 +24,8 @@ public:
     UFUNCTION(BlueprintCallable)
     bool IsDead() const { return FMath::IsNearlyZero(Health); }
 
+    bool TryToAddHealth(float HealthAmount);
+
     FOnDeath OnDeath;
     FOnHealthChanged OnHealthChanged;
 
