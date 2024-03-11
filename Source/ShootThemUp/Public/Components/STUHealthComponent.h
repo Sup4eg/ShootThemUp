@@ -13,8 +13,10 @@ class SHOOTTHEMUP_API USTUHealthComponent : public UActorComponent
     GENERATED_BODY()
 
 public:
-    // Sets default values for this component's properties
     USTUHealthComponent();
+
+    FOnDeath OnDeath;
+    FOnHealthChanged OnHealthChanged;
 
     UFUNCTION(BlueprintCallable, Category = "Health")
     float GetHealthPercent() { return Health / MaxHealth; }
@@ -24,8 +26,8 @@ public:
     UFUNCTION(BlueprintCallable)
     bool IsDead() const { return FMath::IsNearlyZero(Health); }
 
-    FOnDeath OnDeath;
-    FOnHealthChanged OnHealthChanged;
+    bool TryToAddHealth(float HealthAmount);
+    bool IsHealthFull() const;
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Health", meta = (ClampMin = "0", ClampMax = "1000"))
