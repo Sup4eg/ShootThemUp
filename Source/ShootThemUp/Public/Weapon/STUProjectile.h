@@ -8,6 +8,7 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
+class USTUWeaponFXComponent;
 
 UCLASS()
 class SHOOTTHEMUP_API ASTUProjectile : public AActor
@@ -25,8 +26,11 @@ protected:
     UPROPERTY(VisibleAnywhere, Category = "Weapon")
     UProjectileMovementComponent* MovementComponent;
 
+    UPROPERTY(VisibleAnywhere, Category = "VFX")
+    USTUWeaponFXComponent* WeaponFXComponent;
+
     UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "Weapon")
-    float DamageRadius = 200.0f; 
+    float DamageRadius = 200.0f;
 
     UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "Weapon")
     float DamageAmount = 50.0f;
@@ -45,6 +49,6 @@ private:
     AController* GetController() const;
 
     UFUNCTION()
-    void OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent*
-        OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+    void OnProjectileHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse,
+        const FHitResult& Hit);
 };
