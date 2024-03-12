@@ -2,7 +2,7 @@
 
 #include "STUCoreTypes.generated.h"
 
-//weapon
+// weapon
 
 class ASTUBaseWeapon;
 
@@ -45,12 +45,44 @@ struct FWeaponUIData
 
     UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "UI")
     UTexture2D* CrossHairIcon;
+};
 
+// health
+DECLARE_MULTICAST_DELEGATE(FOnDeath);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float);
 
+// VFX
+
+class UNiagaraSystem; 
+
+USTRUCT(BlueprintType)
+struct FDecalData
+{
+    GENERATED_USTRUCT_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "VFX")
+    UMaterialInterface* Material;
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "VFX")
+    FVector Size = FVector(10.0f);
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "VFX")
+    float LifeTime = 5.0f;
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "VFX")
+    float FadeOutTime = 0.7f;
 };
 
 
-//health
-DECLARE_MULTICAST_DELEGATE(FOnDeath);
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float);
+USTRUCT(BlueprintType)
+struct FImpactData
+{
+    GENERATED_USTRUCT_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "VFX")
+    UNiagaraSystem* NiagaraEffect;
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "VFX")
+    FDecalData DecalData;
+};
 
