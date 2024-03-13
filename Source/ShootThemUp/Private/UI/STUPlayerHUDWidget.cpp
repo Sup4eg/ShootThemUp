@@ -5,6 +5,24 @@
 #include "Components/STUWeaponComponent.h"
 #include "STUUtils.h"
 
+bool USTUPlayerHUDWidget::Initialize()
+{
+    const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
+    if (HealthComponent)
+    {
+        HealthComponent->OnHealthChanged.AddUObject(this, &USTUPlayerHUDWidget::OnHealthChanged);
+    }
+    return Super::Initialize();
+}
+
+void USTUPlayerHUDWidget::OnHealthChanged(float Health, float HealthDelta)
+{
+    if (HealthDelta < 0.0f)
+    {
+        OnTakeDamage();
+    }
+}
+
 float USTUPlayerHUDWidget::Get_HealthPercent() const
 {
     const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
@@ -26,12 +44,14 @@ bool USTUPlayerHUDWidget::GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const
     return WeaponComponent->GetCurrentWeaponAmmoData(AmmoData);
 }
 
-bool USTUPlayerHUDWidget::IsPlayerAlive() const {
+bool USTUPlayerHUDWidget::IsPlayerAlive() const
+{
     const auto HealthComponent = STUUtils::GetSTUPlayerComponent<USTUHealthComponent>(GetOwningPlayerPawn());
     return HealthComponent && !HealthComponent->IsDead();
 }
 
-bool USTUPlayerHUDWidget::isPlayerSpectating() const {
+bool USTUPlayerHUDWidget::isPlayerSpectating() const
+{
     const auto Controller = GetOwningPlayer();
     return Controller && Controller->GetStateName() == NAME_Spectating;
 }
