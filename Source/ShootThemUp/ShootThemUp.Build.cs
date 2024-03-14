@@ -14,6 +14,8 @@ public class ShootThemUp : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"Niagara",
+			"GameplayTasks",
+			"NavigationSystem",
 			"PhysicsCore"
 		});
 
@@ -28,7 +30,8 @@ public class ShootThemUp : ModuleRules
 			"ShootThemUp/Public/Animations",
 			"ShootThemUp/Public/Pickups",
 			"ShootThemUp/Public/Weapon/Components",
-			"ShootThemUp/Public/AI"
+			"ShootThemUp/Public/AI",
+			"ShootThemUp/Public/AI/Tasks"
 		});
 
 		// Uncomment if you are using Slate UI
