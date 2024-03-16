@@ -30,6 +30,7 @@ public:
 
     bool TryToAddAmmo(int32 ClipsAmount);
     bool IsAmmoEmpty() const;
+    bool IsAmmoFull() const;
 
 protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
@@ -46,10 +47,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
     FWeaponUIData UIData;
-    
+
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "VFX")
     UNiagaraSystem* MuzzleFX;
-
 
     virtual void BeginPlay() override;
 
@@ -63,7 +63,6 @@ protected:
 
     void DecreaseAmmo();
     bool IsClipEmpty() const;
-    bool IsAmmoFull() const;
     void LogAmmo();
 
     UNiagaraComponent* SpawnMuzzleFX();
