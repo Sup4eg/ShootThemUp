@@ -24,6 +24,7 @@ public:
     bool GetCurrentWeaponAmmoData(FAmmoData& AmmoData) const;
 
     bool TryToAddAmmo(TSubclassOf<ASTUBaseWeapon> WeaponType, int32 ClipsAmount);
+    ASTUBaseWeapon* GetCurrentWeapon() { return CurrentWeapon; };
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -46,14 +47,12 @@ protected:
 
     int32 CurrentWeaponIndex = 0;
 
-
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
     bool CanFire() const;
     bool CanEquip() const;
     void EquipWeapon(int32 WeaponIndex);
-
 
 private:
     UPROPERTY()
