@@ -50,7 +50,6 @@ void ASTUBasePickup::PickupWasTaken()
     CollisionComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
     if (!GetRootComponent()) return;
     GetRootComponent()->SetVisibility(false, true);
-    FTimerHandle RespawnTimerHandle;
     GetWorldTimerManager().SetTimer(RespawnTimerHandle, this, &ASTUBasePickup::Respawn, RespawnTime);
 }
 
@@ -65,4 +64,8 @@ void ASTUBasePickup::Respawn()
 void ASTUBasePickup::GenerateRotationYaw() {
     const auto Direction = FMath::RandBool() ? 1 : -1;  
   RotationYaw = FMath::RandRange(1.0f, 2.0f) * Direction;
+}
+
+bool ASTUBasePickup::CouldBeTaken() const {
+    return !GetWorldTimerManager().IsTimerActive(RespawnTimerHandle);
 }
