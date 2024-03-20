@@ -50,7 +50,7 @@ bool USTUPlayerHUDWidget::IsPlayerAlive() const
     return HealthComponent && !HealthComponent->IsDead();
 }
 
-bool USTUPlayerHUDWidget::isPlayerSpectating() const
+bool USTUPlayerHUDWidget::IsPlayerSpectating() const
 {
     const auto Controller = GetOwningPlayer();
     return Controller && Controller->GetStateName() == NAME_Spectating;

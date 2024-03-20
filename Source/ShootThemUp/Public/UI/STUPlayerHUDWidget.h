@@ -26,7 +26,7 @@ public:
     bool IsPlayerAlive() const;
 
     UFUNCTION(BlueprintCallable, Category = "UI")
-    bool isPlayerSpectating() const;
+    bool IsPlayerSpectating() const;
 
     UFUNCTION(BlueprintImplementableEvent, Category = "UI")
     void OnTakeDamage();
