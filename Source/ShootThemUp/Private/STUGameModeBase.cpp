@@ -70,6 +70,7 @@ void ASTUGameModeBase::GameTimerUpdate()
         else
         {
             UE_LOG(LogSTUGameModeBase, Display, TEXT("========= GAME OVER =========="));
+            LogPlayerInfo();
         }
     }
 }
@@ -114,12 +115,14 @@ void ASTUGameModeBase::CreateTeamsInfo()
     }
 }
 
-FLinearColor ASTUGameModeBase::DetermineColorByTeamID(int32 TeamID) const {
+FLinearColor ASTUGameModeBase::DetermineColorByTeamID(int32 TeamID) const
+{
     if (TeamID - 1 < GameData.TeamColors.Num())
     {
         return GameData.TeamColors[TeamID - 1];
     }
-    UE_LOG(LogSTUGameModeBase, Warning, TEXT("No color for team id: %i, set to default: %s"), TeamID, *GameData.DefaultTeamColor.ToString());
+    UE_LOG(
+        LogSTUGameModeBase, Warning, TEXT("No color for team id: %i, set to default: %s"), TeamID, *GameData.DefaultTeamColor.ToString());
     return GameData.DefaultTeamColor;
 }
 
@@ -133,4 +136,29 @@ void ASTUGameModeBase::SetPlayerColor(AController* Controller)
     if (!PlayerState) return;
 
     Character->SetPlayerColor(PlayerState->GetTeamColor());
+}
+
+void ASTUGameModeBase::Killed(AController* KillerController, AController* VictimController)
+{
+    const auto KillerPlayerState = KillerController ? Cast<ASTUPlayerState>(KillerController->PlayerState) : nullptr;
+    const auto VictimPlayerState = KillerController ? Cast<ASTUPlayerState>(VictimController->PlayerState) : nullptr;
+
+    if (KillerPlayerState) KillerPlayerState->AddKill();
+    if (VictimPlayerState) VictimPlayerState->AddDeath();
+}
+
+void ASTUGameModeBase::LogPlayerInfo()
+{
+    if (!GetWorld()) return;
+
+    for (auto It = GetWorld()->GetControllerIterator(); It; ++It)
+    {
+        const auto Controller = It->Get();
+        if (!Controller) continue;
+
+        const auto PlayerState = Cast<ASTUPlayerState>(Controller->PlayerState);
+        if (!PlayerState) continue;
+
+        PlayerState->LogInfo();
+    }
 }
