@@ -31,6 +31,10 @@ public:
 
     void RespawnRequest(AController* Controller);
 
+    virtual bool SetPause(APlayerController* PC, FCanUnpause CanUnpauseDelegate = FCanUnpause()) override;
+
+    virtual bool ClearPause() override;
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "Game")
     TSubclassOf<AAIController> AIControllerClass;
