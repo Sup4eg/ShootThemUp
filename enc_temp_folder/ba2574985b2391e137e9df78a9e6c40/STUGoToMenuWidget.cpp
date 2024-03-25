@@ -13,7 +13,14 @@ void USTUGoToMenuWidget::NativeOnInitialized() {
     Super::NativeOnInitialized();
     if (MainMenuButton)
     {
+        UE_LOG(LogSTUGoToMenuWidget, Error, TEXT("-=------------------HERE HERE-----------------"));
+
         MainMenuButton->OnClicked.AddDynamic(this, &USTUGoToMenuWidget::OnMainMenu);
+    }
+    else
+    {
+        UE_LOG(LogSTUGoToMenuWidget, Error, TEXT("-=------------------NOT MENU BUTTON-----------------"));
+
     }
 }
 
