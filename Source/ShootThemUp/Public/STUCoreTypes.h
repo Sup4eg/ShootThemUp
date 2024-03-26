@@ -97,7 +97,7 @@ struct FGameData
     int32 RoundsNum = 4;
 
     UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "Game", meta = (ClampMin = "3", ClampMax = "300"))
-    int32 RoundTime = 30; //in seconds
+    int32 RoundTime = 30;  // in seconds
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
     FLinearColor DefaultTeamColor = FLinearColor::Red;
@@ -106,16 +106,33 @@ struct FGameData
     TArray<FLinearColor> TeamColors;
 
     UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "Game", meta = (ClampMin = "3", ClampMax = "20"))
-    int32 RespawnTime = 5; //in seconds
+    int32 RespawnTime = 5;  // in seconds
 };
 
 UENUM(BlueprintType)
 enum class ESTUMatchState : uint8
 {
-  WaitingToStart = 0,
-  InProgress,
-  Pause,
-  GameOver
+    WaitingToStart = 0,
+    InProgress,
+    Pause,
+    GameOver
 };
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnMatchStateChangedSignature, ESTUMatchState);
+
+USTRUCT(BlueprintType)
+struct FLevelData
+{
+    GENERATED_USTRUCT_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "Game")
+    FName LevelName = NAME_None;
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "Game")
+    FName LevelDisplayName = NAME_None;
+
+    UPROPERTY(EditDefaultsOnly, BluePrintReadWrite, Category = "Game")
+    UTexture2D* LevelThumb;
+};
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnLevelSelectedSignature, const FLevelData&);
