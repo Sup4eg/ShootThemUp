@@ -8,7 +8,6 @@
 #include "Components/HorizontalBox.h"
 #include "Menu/UI/STULevelItemWidget.h"
 
-
 DEFINE_LOG_CATEGORY_STATIC(LogSTUMenuWidget, All, All)
 
 void USTUMenuWidget::NativeOnInitialized()
@@ -79,13 +78,19 @@ void USTUMenuWidget::OnLevelSelected(const FLevelData& Data)
 
 void USTUMenuWidget::OnStartGame()
 {
+    PlayAnimation(HideAnim);
+}
 
+void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* Animation)
+{
+    if (Animation != HideAnim) return;
     const auto STUGameInstance = GetSTUGameInstance();
     if (!STUGameInstance) return;
     UGameplayStatics::OpenLevel(this, STUGameInstance->GetStartupLevel().LevelName);
 }
 
-void USTUMenuWidget::OnQuitGame() {
+void USTUMenuWidget::OnQuitGame()
+{
     UKismetSystemLibrary::QuitGame(this, GetOwningPlayer(), EQuitPreference::Quit, true);
 }
 

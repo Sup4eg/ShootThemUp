@@ -31,7 +31,11 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
     TSubclassOf<UUserWidget> LevelItemWidgetClass;
 
+    UPROPERTY(Transient, meta = (BindWidgetAnimation))
+    UWidgetAnimation* HideAnim;
+
     virtual void NativeOnInitialized() override;
+    virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;
 
 private:
     UPROPERTY()
