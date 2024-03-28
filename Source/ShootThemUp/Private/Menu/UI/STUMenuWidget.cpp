@@ -78,12 +78,12 @@ void USTUMenuWidget::OnLevelSelected(const FLevelData& Data)
 
 void USTUMenuWidget::OnStartGame()
 {
-    PlayAnimation(HideAnim);
+    PlayAnimation(HideAnimation);
 }
 
 void USTUMenuWidget::OnAnimationFinished_Implementation(const UWidgetAnimation* Animation)
 {
-    if (Animation != HideAnim) return;
+    if (Animation != HideAnimation) return;
     const auto STUGameInstance = GetSTUGameInstance();
     if (!STUGameInstance) return;
     UGameplayStatics::OpenLevel(this, STUGameInstance->GetStartupLevel().LevelName);
