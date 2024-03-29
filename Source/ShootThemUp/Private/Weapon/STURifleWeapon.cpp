@@ -105,7 +105,7 @@ void ASTURifleWeapon::SetFXActive(bool IsActive)
 
     if (FireAudioComponent)
     {
-        IsActive ? FireAudioComponent->Play() : FireAudioComponent->Stop();
+        FireAudioComponent->SetPaused(!IsActive);
     }
 }
 
