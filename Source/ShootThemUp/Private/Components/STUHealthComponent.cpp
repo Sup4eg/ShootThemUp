@@ -145,7 +145,6 @@ void USTUHealthComponent::ReportDamageEvent(float Damage, AController* Instigate
 {
     if (!InstigatedBy || !InstigatedBy->GetPawn() || !GetOwner()) return;
     
-    UE_LOG(LogTemp, Warning, TEXT("========== TEST report damage===================="));
     UAISense_Damage::ReportDamageEvent(GetWorld(),    //
         GetOwner(),                                   //
         InstigatedBy->GetPawn(),                      //
