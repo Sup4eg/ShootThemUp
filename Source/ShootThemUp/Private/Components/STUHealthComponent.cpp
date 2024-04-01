@@ -9,6 +9,7 @@
 #include "Camera/CameraShake.h"
 #include "STUGameModeBase.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
+#include "Perception/AISense_Damage.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogHealthComponent, All, All)
 
@@ -38,9 +39,9 @@ void USTUHealthComponent::OnTakeAnyDamage(
     UE_LOG(LogHealthComponent, Display, TEXT("On any damage: %f"), Damage);
 }
 
-void USTUHealthComponent::OnTakePointDamage(AActor* DamagedActor, float Damage, class AController* InstigatedBy,
-    FVector HitLocation, class UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection,
-    const class UDamageType* DamageType, AActor* DamageCauser)
+void USTUHealthComponent::OnTakePointDamage(AActor* DamagedActor, float Damage, class AController* InstigatedBy, FVector HitLocation,
+    class UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const class UDamageType* DamageType,
+    AActor* DamageCauser)
 {
     const auto FinalDamage = Damage * GetPointDamageModifier(DamagedActor, BoneName);
     UE_LOG(LogHealthComponent, Display, TEXT("On point damage: %f, final damage: %f, bone: %s"), Damage, FinalDamage, *BoneName.ToString());
@@ -123,6 +124,7 @@ void USTUHealthComponent::ApplyDamage(float Damage, AController* InstigatedBy)
         GetWorld()->GetTimerManager().SetTimer(HealTimerHandle, this, &USTUHealthComponent::HealUpdate, HealUpdateTime, true, HealDelay);
     }
     PlayCameraShake();
+    ReportDamageEvent(Damage, InstigatedBy);
 }
 
 float USTUHealthComponent::GetPointDamageModifier(AActor* DamagedActor, const FName& BoneName)
@@ -137,4 +139,17 @@ float USTUHealthComponent::GetPointDamageModifier(AActor* DamagedActor, const FN
     if (!DamageModifiers.Contains(PhysMaterial)) return 1.0;
 
     return DamageModifiers[PhysMaterial];
+}
+
+void USTUHealthComponent::ReportDamageEvent(float Damage, AController* InstigatedBy)
+{
+    if (!InstigatedBy || !InstigatedBy->GetPawn() || !GetOwner()) return;
+    
+    UE_LOG(LogTemp, Warning, TEXT("========== TEST report damage===================="));
+    UAISense_Damage::ReportDamageEvent(GetWorld(),    //
+        GetOwner(),                                   //
+        InstigatedBy->GetPawn(),                      //
+        Damage,                                       //
+        InstigatedBy->GetPawn()->GetActorLocation(),  //
+        GetOwner()->GetActorLocation());
 }
